@@ -26,7 +26,6 @@
 </script>
 
 <main>
-	<div>{env.SERVER_URL}</div>
 	<h1>SLP Pause Checker</h1>
 	<FilePicker on:analyze={uploadFile} />
 	{#if analyzeResult}

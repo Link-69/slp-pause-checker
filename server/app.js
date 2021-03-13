@@ -5,11 +5,14 @@ const compression = require('compression')
 const cors = require('cors')
 const slpParser = require('./slp-parsing.js');
 
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
+
 const app = express();
-const port = process.env.PORT || 3000;
 
 const corsOptions = {
-  origin: 'http://localhost:5000' // TODO - en prod : https://slp-pause-checker.netlify.app/
+  origin: process.env.CLIENT_URL // 'http://localhost:5000' // TODO - en prod : https://slp-pause-checker.netlify.app/
 };
 
 app.use(helmet());
@@ -17,9 +20,7 @@ app.use(compression());
 app.use(cors(corsOptions));
 app.use(fileUpload());
 
-app.listen(port, () => {
-    console.log(`App listening at http://localhost:${port}`);
-});
+app.listen(process.env.PORT);
 
 app.post('/upload-slp', (req, res) => {
   try {
