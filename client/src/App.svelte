@@ -12,7 +12,7 @@
 			const formData = new FormData();
 
 			formData.append('slpFile', e.detail);
-			const response = await axios.post('http://localhost:3000/upload-slp', formData, {
+			const response = await axios.post(`${__myapp.env.SERVER_URL}/upload-slp`, formData, {
 				headers: {
 					'Content-Type': 'multipart/form-data'
 				}
@@ -25,6 +25,7 @@
 </script>
 
 <main>
+	<div>{__myapp.env.SERVER_URL}</div>
 	<h1>SLP Pause Checker</h1>
 	<FilePicker on:analyze={uploadFile} />
 	{#if analyzeResult}

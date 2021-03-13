@@ -6,7 +6,7 @@ const cors = require('cors')
 const slpParser = require('./slp-parsing.js');
 
 const app = express();
-const port = process.env.PORT || port;
+const port = process.env.PORT || 3000;
 
 const corsOptions = {
   origin: 'http://localhost:5000' // TODO - en prod : https://slp-pause-checker.netlify.app/
