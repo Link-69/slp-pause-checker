@@ -5,22 +5,21 @@ const getPlayersPauses = (fileBuffer) => {
 
     const gameLog = new Array();
     gameLog.push(gameDuration);
+    gameLog.push('-');
     for (var i = 0; i < totalFrames; i++) {
         const frame = i;
         const frameInSeconds = frame / 60;
-        const minuteFrame = Math.floor(frameInSeconds / 60);
-        const secondFrame = frameInSeconds - minuteFrame * 60;
+        const minuteFrame = (Math.floor(frameInSeconds / 60)).toFixed(0);
+        const secondFrame = (frameInSeconds - minuteFrame * 60).toFixed(2);
 
         const buttonP1 = frames[i].players[0].pre.physicalButtons;
         const buttonP2 = frames[i].players[1].pre.physicalButtons;
 
         if (buttonP1 == 4096) {
-            // console.log(`player 1 pressed start on frame ${frame} | ${minuteFrame} minutes ${secondFrame} seconds`);
-            gameLog.push(`player 1 pressed start on frame ${frame} | ${minuteFrame} minutes ${secondFrame} seconds`);
+            gameLog.push(`P1 pauses at ${minuteFrame}:${secondFrame} (frame ${frame})`);
         }
         if (buttonP2 == 4096) {
-            // console.log(`player 2 pressed start on frame ${frame} | ${minuteFrame} minutes ${secondFrame} seconds`);
-            gameLog.push(`player 2 pressed start on frame ${frame} | ${minuteFrame} minutes ${secondFrame} seconds`);
+            gameLog.push(`P2 pauses at ${minuteFrame}:${secondFrame} (frame ${frame})`);
         }
     }
     return gameLog;
@@ -38,11 +37,11 @@ const getFramesFromSlpFile = (file) => {
 
     const totalFrames = game.getLatestFrame().frame;
     const gameInSeconds = totalFrames / 60;
-    const minutes = Math.floor(gameInSeconds / 60);
-    const seconds = gameInSeconds - minutes * 60;
+    const minutes = (Math.floor(gameInSeconds / 60)).toFixed(0);
+    const seconds = (gameInSeconds - minutes * 60).toFixed(2);
     const frames = game.getFrames();
 
-    const gameDuration = `Game lasted ${totalFrames} frames | ${minutes} minutes ${seconds} seconds`;
+    const gameDuration = `Game duration : ${minutes}min ${seconds}sec (${totalFrames} frames)`;
     return { frames, totalFrames, gameDuration };
 }
 
