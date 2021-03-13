@@ -2,6 +2,7 @@
 	import FilePicker from './FilePicker.svelte';
 	import axios from 'axios';
 
+	const env = __myapp.env;
 	let analyzeResult;
 	let analyzeError;
 
@@ -12,7 +13,7 @@
 			const formData = new FormData();
 
 			formData.append('slpFile', e.detail);
-			const response = await axios.post(`${__myapp.env.SERVER_URL}/upload-slp`, formData, {
+			const response = await axios.post(`${env.SERVER_URL}/upload-slp`, formData, {
 				headers: {
 					'Content-Type': 'multipart/form-data'
 				}
@@ -25,7 +26,7 @@
 </script>
 
 <main>
-	<div>{__myapp.env.SERVER_URL}</div>
+	<div>{env.SERVER_URL}</div>
 	<h1>SLP Pause Checker</h1>
 	<FilePicker on:analyze={uploadFile} />
 	{#if analyzeResult}

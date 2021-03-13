@@ -9,6 +9,7 @@ import css from 'rollup-plugin-css-only';
 // import { replace } from 'svelte-spa-router';
 
 const production = !process.env.ROLLUP_WATCH;
+config();
 
 function serve() {
 	let server;
@@ -76,7 +77,7 @@ export default {
 			__myapp: JSON.stringify({
 			  env: {
 				isProd: production,
-				...config().parsed // attached the .env config
+				SERVER_URL: process.env.SERVER_URL // attached the .env config
 			  }
 			})
 		})
