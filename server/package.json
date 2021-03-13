@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@slippi/slippi-js": "^5.1.1"
+  }
+}
