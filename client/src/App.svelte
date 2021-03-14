@@ -2,7 +2,7 @@
 	import FilePicker from './components/FilePicker.svelte';
 	import axios from 'axios';
 	import Footer from './components/Footer.svelte';
-import AnalysisResults from './components/AnalysisResults.svelte';
+	import AnalysisResults from './components/AnalysisResults.svelte';
 
 	const env = __myapp.env;
 	let analysisResults;
