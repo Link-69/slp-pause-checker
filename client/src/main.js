@@ -1,4 +1,5 @@
 import App from './App.svelte';
+import '../public/global.css';
 import 'bulma/css/bulma.css';
 
 const app = new App({
