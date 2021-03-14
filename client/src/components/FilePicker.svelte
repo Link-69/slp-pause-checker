@@ -9,11 +9,9 @@
     }
 </script>
 
-<div>
-	<div>
-		<input type="file" bind:files />
-        {#if files && files[0]}
-		    <button on:click={analyzeFile}>Analyze</button>
-        {/if}
-	</div>
+<div class="block">
+    <input type="file" bind:files />
+    {#if files && files[0]}
+        <button on:click={analyzeFile}>Analyze</button>
+    {/if}
 </div>

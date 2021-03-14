@@ -1,14 +1,13 @@
 const { default: SlippiGame } = require('@slippi/slippi-js');
+const { timeMinutesFromFrame, timeSecondsFromFrame, twoDigitsString } = require('./helpers');
 
 const getPlayersPauses = (fileBuffer) => {
     const { frames, totalFrames, p1tag, p2tag, gameDuration } = getDatasFromSlpFile(fileBuffer);
     let gameLog = { gameDuration, pauses: [] };
 
     for (var i = 0; i < totalFrames; i++) {
-        const frame = i;
-        const frameInSeconds = frame / 60;
-        const minuteFrame = (Math.floor(frameInSeconds / 60)).toFixed(0);
-        const secondFrame = (frameInSeconds - minuteFrame * 60).toFixed(0);
+        const minuteFrame = timeMinutesFromFrame(i);
+        const secondFrame = timeSecondsFromFrame(i);
 
         const buttonP1 = frames[i].players[0].pre.physicalButtons;
         const buttonP2 = frames[i].players[1].pre.physicalButtons;
@@ -16,9 +15,9 @@ const getPlayersPauses = (fileBuffer) => {
         if (buttonP1 == 4096 || buttonP2 == 4096) {
             gameLog.pauses.push({
                 player: buttonP1 == 4096 ? p1tag : p2tag,
-                minute: minuteFrame,
-                second: secondFrame,
-                frame
+                minute: twoDigitsString(minuteFrame),
+                second: twoDigitsString(secondFrame),
+                frame: i
             });
         }
     }
@@ -40,9 +39,8 @@ const getDatasFromSlpFile = (file) => {
     // const stats = game.getStats();
 
     const totalFrames = game.getLatestFrame().frame;
-    const gameInSeconds = totalFrames / 60;
-    const minutes = (Math.floor(gameInSeconds / 60)).toFixed(0);
-    const seconds = Math.round((gameInSeconds - minutes * 60));
+    const minutes = timeMinutesFromFrame(totalFrames);
+    const seconds = timeSecondsFromFrame(totalFrames);
     const frames = game.getFrames();
 
     const gameDuration = {
@@ -54,8 +52,8 @@ const getDatasFromSlpFile = (file) => {
 }
 
 const clearPausesLog = (gameLog) => {
-    let pauses = [];
-    for (var i = 1; i < gameLog.pauses.length; i++) {
+    let pauses = [gameLog.pauses[0]];
+    for (var i = 2; i < gameLog.pauses.length; i++) {
         if (gameLog.pauses[i].frame - gameLog.pauses[i - 1].frame > 20) {
             pauses.push(gameLog.pauses[i]);
         }
@@ -64,13 +62,6 @@ const clearPausesLog = (gameLog) => {
         ...gameLog,
         pauses: pauses
     };
-}
-
-const twoDigitsString = (number) => {
-    var dec = number - Math.floor(number);
-    number = number - dec;
-    var formattedNumber = ("0" + number).slice(-2) + dec.toString().substr(1);
-    return formattedNumber;
 }
 
 module.exports = {

@@ -6,7 +6,7 @@ html, body {
 
 body {
 	background-color: #222222;
-	color: #ffffff;
+	color: #ffffff !important;
 	display: flex;
 	flex-direction: column;
 	margin: 0;

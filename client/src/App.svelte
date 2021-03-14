@@ -2,14 +2,15 @@
 	import FilePicker from './components/FilePicker.svelte';
 	import axios from 'axios';
 	import Footer from './components/Footer.svelte';
+import AnalysisResults from './components/AnalysisResults.svelte';
 
 	const env = __myapp.env;
-	let analyzeResult;
-	let analyzeError;
+	let analysisResults;
+	let analysisError;
 
 	const uploadFile = async (e) => {
-		analyzeResult = new Array();
-		analyzeError = '';
+		analysisResults = new Array();
+		analysisError = '';
 		try {
 			const formData = new FormData();
 
@@ -19,25 +20,18 @@
 					'Content-Type': 'multipart/form-data'
 				}
 			});
-			analyzeResult = response.data;
+			analysisResults = response.data;
 		} catch (error) {
-			analyzeError = error.response.data;
+			analysisError = error.response.data;
 		}
 	}
 </script>
 
 <main>
 	<h1>SLP Pause Checker</h1>
+	<div class="block is-size-7">Note : this won't work to detect whether a player LRAStarted</div>
 	<FilePicker on:analyze={uploadFile} />
-	{#if analyzeResult?.gameDuration && analyzeResult?.pauses}
-		<div>Game duration : {analyzeResult.gameDuration.minutes}min {analyzeResult.gameDuration.seconds}sec ({analyzeResult.gameDuration.frames} frames)</div>
-		{#each analyzeResult.pauses as pause}
-			<div>{pause.player} pauses at {pause.minute}:{pause.second} (frame {pause.frame})</div>
-		{/each}
-	{/if}
-	{#if analyzeError}
-		<div class="analyze-error">{analyzeError}</div>
-	{/if}
+	<AnalysisResults results={analysisResults} error={analysisError} />
 </main>
 <Footer />
 
@@ -54,9 +48,17 @@
 		text-transform: uppercase;
 		font-size: 4em;
 		font-weight: 100;
+		margin-top: 80px;
 	}
 
 	.analyze-error {
 		color: #ff0000;
+	}
+
+	@media (max-width: 768px) {
+		h1 {
+			font-size: 3em;
+			margin-top: 30px;
+		}
 	}
 </style>
