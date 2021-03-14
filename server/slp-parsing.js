@@ -52,7 +52,7 @@ const getDatasFromSlpFile = (file) => {
 }
 
 const clearPausesLog = (gameLog) => {
-    if (gameLog.pauses) {
+    if (gameLog?.pauses?.length) {
         let pauses = [gameLog.pauses[0]];
         for (var i = 2; i < gameLog.pauses.length; i++) {
             if (gameLog.pauses[i].frame - gameLog.pauses[i - 1].frame > 20) {
