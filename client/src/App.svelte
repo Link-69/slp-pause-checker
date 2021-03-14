@@ -29,9 +29,10 @@
 <main>
 	<h1>SLP Pause Checker</h1>
 	<FilePicker on:analyze={uploadFile} />
-	{#if analyzeResult}
-		{#each analyzeResult as result}
-			<div>{result}</div>
+	{#if analyzeResult?.gameDuration && analyzeResult?.pauses}
+		<div>Game duration : {analyzeResult.gameDuration.minutes}min {analyzeResult.gameDuration.seconds}sec ({analyzeResult.gameDuration.frames} frames)</div>
+		{#each analyzeResult.pauses as pause}
+			<div>{pause.player} pauses at {pause.minute}:{pause.second} (frame {pause.frame})</div>
 		{/each}
 	{/if}
 	{#if analyzeError}
@@ -41,12 +42,6 @@
 <Footer />
 
 <style>
-	/* :global(body) {
-		background-color: #222222;
-		color: #ffffff;
-		display: flex;
-		flex-direction: column;
-	} */
 	main {
 		text-align: center;
 		padding: 1em;
