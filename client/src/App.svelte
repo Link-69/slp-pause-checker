@@ -51,10 +51,6 @@
 		margin-top: 80px;
 	}
 
-	.analyze-error {
-		color: #ff0000;
-	}
-
 	@media (max-width: 768px) {
 		h1 {
 			font-size: 3em;
