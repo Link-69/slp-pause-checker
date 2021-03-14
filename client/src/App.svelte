@@ -1,6 +1,7 @@
 <script>
-	import FilePicker from './FilePicker.svelte';
+	import FilePicker from './components/FilePicker.svelte';
 	import axios from 'axios';
+	import Footer from './components/Footer.svelte';
 
 	const env = __myapp.env;
 	let analyzeResult;
@@ -37,17 +38,20 @@
 		<div class="analyze-error">{analyzeError}</div>
 	{/if}
 </main>
+<Footer />
 
 <style>
-	:global(body) {
+	/* :global(body) {
 		background-color: #222222;
 		color: #ffffff;
-	}
+		display: flex;
+		flex-direction: column;
+	} */
 	main {
 		text-align: center;
 		padding: 1em;
-		max-width: 240px;
 		margin: 0 auto;
+		flex-grow: 1;
 	}
 
 	h1 {
@@ -59,11 +63,5 @@
 
 	.analyze-error {
 		color: #ff0000;
-	}
-
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
 	}
 </style>
