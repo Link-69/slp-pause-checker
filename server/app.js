@@ -29,7 +29,8 @@ app.post('/upload-slp', (req, res) => {
     }
     const slpFile = req.files.slpFile;
     const playersPauses = slpParser.getPlayersPauses(slpFile.data);
-    res.send(playersPauses);
+    const digitalPlayers = slpParser.getDigitalPlayers(slpFile.data);
+    res.send({ ...playersPauses, ...digitalPlayers });
   } catch (error) {
     res.status(400).send('Error while parsing file');
   }

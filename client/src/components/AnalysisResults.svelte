@@ -14,6 +14,9 @@
         {:else}
             <div>No pause detected</div>
         {/if}
+        <br />
+        <div><b>{results.p1.tag}</b> is on a {results.p1.isDigital ? "digital" : "analog"} controller</div>
+        <div><b>{results.p2.tag}</b> is on a {results.p2.isDigital ? "digital" : "analog"} controller</div>
     </div>
 {/if}
 {#if error}

@@ -24,6 +24,43 @@ const getPlayersPauses = (fileBuffer) => {
     return clearPausesLog(gameLog);
 }
 
+// TODO - should be optimized to not loop twice on file parsing results
+const getDigitalPlayers = (fileBuffer) => {
+    const { frames, totalFrames, p1tag, p2tag } = getDatasFromSlpFile(fileBuffer);
+    const p1Angles = new Array();
+    const p2Angles = new Array();
+
+    for (var i = 0; i < totalFrames; i++) {
+        const GetAngle = (x, y) => p1X === 0 && p1Y === 0
+            ? 0
+            : (2 * Math.atan(y / (x + Math.sqrt((x ^ 2) + (y ^ 2))))) * (180 / Math.PI);
+
+        const p1X = Math.abs(frames[i].players[0].pre.joystickX);
+        const p1Y = Math.abs(frames[i].players[0].pre.joystickY);
+        const p1Angle = GetAngle(p1X, p1Y);
+
+        p1Angles.push(p1Angle);
+
+        const p2X = Math.abs(frames[i].players[1].pre.joystickX);
+        const p2Y = Math.abs(frames[i].players[1].pre.joystickY);
+        const p2Angle = GetAngle(p2X, p2Y);
+
+        p2Angles.push(p2Angle);
+    }
+
+    console.log(`P1 angles count`, p1Angles.length);
+    const uniqueAnglesP1 = [...new Set(p1Angles.map(angle => angle))];
+    console.log(`P1 angles`, uniqueAnglesP1.length);
+
+    console.log(`P2 angles count`, p2Angles.length);
+    const uniqueAnglesP2 = [...new Set(p2Angles.map(angle => angle))];
+    console.log(`P2 angles`, uniqueAnglesP2.length);
+
+    const isDigital = (angles) => angles.length <= 13;
+
+    return { p1: { tag: p1tag, isDigital: isDigital(uniqueAnglesP1) }, p2: { tag: p2tag, isDigital: isDigital(uniqueAnglesP2) } };
+}
+
 const getDatasFromSlpFile = (file) => {
     const game = new SlippiGame(file);
 
@@ -68,5 +105,6 @@ const clearPausesLog = (gameLog) => {
 }
 
 module.exports = {
-    getPlayersPauses
+    getPlayersPauses,
+    getDigitalPlayers
 }
