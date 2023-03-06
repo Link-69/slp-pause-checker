@@ -1,7 +1,7 @@
 const twoDigitsString = (number) => {
     var dec = number - Math.floor(number);
     number = number - dec;
-    var formattedNumber = ("0" + number).slice(-2) + dec.toString().substr(1);
+    var formattedNumber = ("0" + number).slice(-2) + dec.toString().substring(1);
     return formattedNumber;
 }
 
